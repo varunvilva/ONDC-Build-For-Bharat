@@ -146,6 +146,22 @@ class AddProduct extends ConsumerWidget {
                                 ),
                                 child: const Text('Upload'),
                               ),
+                              // SizedBox(height: 20),
+                              // Consumer(
+                              //   builder: (_, ref, __) {
+                              //     if (ref.watch(shelfProvider).isRecording) {
+                              //       return IconButton(
+                              //         onPressed: () => ref.read(shelfProvider.notifier).stopRecording(),
+                              //         icon: Icon(Icons.mic_off),
+                              //       );
+                              //     } else {
+                              //       return IconButton(
+                              //         onPressed: () => ref.read(shelfProvider.notifier).startRecording(),
+                              //         icon: Icon(Icons.mic),
+                              //       );
+                              //     }
+                              //   },
+                              // ),
                             ],
                           ),
                         ),

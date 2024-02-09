@@ -1,11 +1,14 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-
 import 'package:logger/logger.dart';
+import 'package:shelfie/api/bashin_asr.dart';
 import 'package:shelfie/api/gemini.dart';
 import 'package:shelfie/constants/constants.dart';
 
@@ -27,6 +30,8 @@ class ShelfState {
   final String expiryDate;
   final XFile? selectedImage;
   final TextEditingController userEnteredPromptController;
+  // final AudioRecorder audioRecorder;
+  // final bool isRecording;
 
   ShelfState({
     required this.productId,
@@ -42,6 +47,8 @@ class ShelfState {
     required this.expiryDate,
     this.selectedImage,
     required this.userEnteredPromptController,
+    // required this.audioRecorder,
+    // required this.isRecording,
   });
 
   ShelfState copyWith({
@@ -58,6 +65,8 @@ class ShelfState {
     String? expiryDate,
     XFile? selectedImage,
     TextEditingController? userEnteredPromptController,
+    // AudioRecorder? audioRecorder,
+    // bool? isRecording,
   }) {
     return ShelfState(
       productId: productId ?? this.productId,
@@ -73,13 +82,16 @@ class ShelfState {
       expiryDate: expiryDate ?? this.expiryDate,
       selectedImage: selectedImage,
       userEnteredPromptController: userEnteredPromptController ?? this.userEnteredPromptController,
+      // audioRecorder: audioRecorder ?? this.audioRecorder,
+      // isRecording: isRecording ?? this.isRecording,
     );
   }
 }
 
 class ShelfStateNotifier extends StateNotifier<ShelfState> {
   ShelfStateNotifier(ref)
-      : _geminiApi = ref.read(geminiProvider),
+      : _bashiniASRApi = ref.read(bashiniProvider),
+        _geminiApi = ref.read(geminiProvider),
         super(ShelfState(
           productId: 0,
           productNameController: TextEditingController(),
@@ -92,11 +104,16 @@ class ShelfStateNotifier extends StateNotifier<ShelfState> {
           brandName: TextEditingController(),
           manufacturerDate: '',
           expiryDate: '',
-        userEnteredPromptController: TextEditingController()
+          userEnteredPromptController: TextEditingController(),
+          // audioRecorder: AudioRecorder(),
+          // isRecording: false,
         ));
 
   final Logger _logger = Logger();
   final GeminiApi _geminiApi;
+  final BashiniASRApi _bashiniASRApi;
+
+  List<int> encodedAudio =[];
 
   void callGeminiApi() async {
     final String userEnteredPrompt = state.userEnteredPromptController.text;
@@ -149,13 +166,34 @@ class ShelfStateNotifier extends StateNotifier<ShelfState> {
     }
   }
 
+
+  // void startRecording() async {
+  //   if (await state.audioRecorder.hasPermission()) {
+  //     state = state.copyWith(isRecording: true);
+  //
+  //
+  //
+  //     _logger.e('No permission to record audio');
+  //   }
+  // }
+  //
+  // void stopRecording() async {
+  //   await state.audioRecorder.stop();
+  //    _bashiniASRApi.bashiniASR(
+  //     APIConstants.modelIdMapASR['hi']!,
+  //     base64Encode(encodedAudio),
+  //     'hi',
+  //   );
+  //   state = state.copyWith(isRecording: false);
+  // }
+
   Future<CroppedFile?> _cropImage(XFile image, BuildContext context) {
     return ImageCropper().cropImage(
       sourcePath: image.path,
       aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
       compressQuality: 100,
       compressFormat: ImageCompressFormat.jpg,
-      uiSettings: [WebUiSettings(context: context,showZoomer: true,enableZoom: true)],
+      uiSettings: [WebUiSettings(context: context, showZoomer: true, enableZoom: true)],
     );
   }
 
@@ -163,9 +201,9 @@ class ShelfStateNotifier extends StateNotifier<ShelfState> {
     final XFile? pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
-     // CroppedFile? file = await _cropImage(pickedFile, context);
+      // CroppedFile? file = await _cropImage(pickedFile, context);
       state = state.copyWith(selectedImage: pickedFile);
-    //  _logger.d(file.path);
+      //  _logger.d(file.path);
     }
     _logger.d(pickedFile?.path);
   }
