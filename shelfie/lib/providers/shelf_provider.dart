@@ -29,7 +29,10 @@ class ShelfState {
   final String manufacturerDate;
   final String expiryDate;
   final XFile? selectedImage;
+  final Uint8List? selectedAudio;
   final TextEditingController userEnteredPromptController;
+  final String selectedLanguageCode;
+  final String? bashiniASRResponse;
   // final AudioRecorder audioRecorder;
   // final bool isRecording;
 
@@ -46,7 +49,10 @@ class ShelfState {
     required this.manufacturerDate,
     required this.expiryDate,
     this.selectedImage,
+    this.selectedAudio,
     required this.userEnteredPromptController,
+    required this.selectedLanguageCode,
+    this.bashiniASRResponse,
     // required this.audioRecorder,
     // required this.isRecording,
   });
@@ -64,7 +70,10 @@ class ShelfState {
     String? manufacturerDate,
     String? expiryDate,
     XFile? selectedImage,
+    Uint8List? selectedAudio,
     TextEditingController? userEnteredPromptController,
+    String? selectedLanguageCode,
+    String? bashiniASRResponse,
     // AudioRecorder? audioRecorder,
     // bool? isRecording,
   }) {
@@ -81,7 +90,10 @@ class ShelfState {
       manufacturerDate: manufacturerDate ?? this.manufacturerDate,
       expiryDate: expiryDate ?? this.expiryDate,
       selectedImage: selectedImage,
+      selectedAudio: selectedAudio,
       userEnteredPromptController: userEnteredPromptController ?? this.userEnteredPromptController,
+      selectedLanguageCode: selectedLanguageCode ?? this.selectedLanguageCode,
+      bashiniASRResponse: bashiniASRResponse,
       // audioRecorder: audioRecorder ?? this.audioRecorder,
       // isRecording: isRecording ?? this.isRecording,
     );
@@ -105,6 +117,8 @@ class ShelfStateNotifier extends StateNotifier<ShelfState> {
           manufacturerDate: '',
           expiryDate: '',
           userEnteredPromptController: TextEditingController(),
+          selectedLanguageCode: 'en',
+          bashiniASRResponse: '',
           // audioRecorder: AudioRecorder(),
           // isRecording: false,
         ));
@@ -113,7 +127,6 @@ class ShelfStateNotifier extends StateNotifier<ShelfState> {
   final GeminiApi _geminiApi;
   final BashiniASRApi _bashiniASRApi;
 
-  List<int> encodedAudio =[];
 
   void callGeminiApi() async {
     final String userEnteredPrompt = state.userEnteredPromptController.text;
@@ -122,6 +135,16 @@ class ShelfStateNotifier extends StateNotifier<ShelfState> {
     final String response =
         await _geminiApi.proVisionModel(image: image, prompt: APIConstants.proVisionPrompt + userEnteredPrompt);
     _logger.i('Gemini response: $response');
+  }
+
+  void callBashiniASRApi() async {
+   final String response = await _bashiniASRApi.bashiniASR(
+      APIConstants.modelIdMapASR[state.selectedLanguageCode]!,
+      base64Encode(state.selectedAudio!),
+      state.selectedLanguageCode,
+    );
+   state = state.copyWith(bashiniASRResponse: response);
+    _logger.i('Bashini response: $response');
   }
 
   void pickFile() async {
@@ -133,6 +156,7 @@ class ShelfStateNotifier extends StateNotifier<ShelfState> {
           result.files.single.path!.endsWith(".txt");
       if (isValidFile) {
         File file = File(result.files.single.path!);
+
 
         // TODO : Add code to send the spreadsheet to the backend
 
@@ -148,18 +172,18 @@ class ShelfStateNotifier extends StateNotifier<ShelfState> {
   void pickAudio() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
     if (result != null) {
-      bool isValidFile = result.files.single.path!.endsWith(".mp3") ||
-          result.files.single.path!.endsWith(".wav") ||
-          result.files.single.path!.endsWith(".aac") ||
-          result.files.single.path!.endsWith(".flac");
+      bool isValidFile = result.files.single.name.endsWith(".mp3") ||
+          result.files.single.name.endsWith(".wav");
       if (isValidFile) {
-        File file = File(result.files.single.path!);
+        _logger.d('Audio file selected');
+        Uint8List bytes = result.files.single.bytes!;
 
+        state = state.copyWith(selectedAudio: bytes);
         // TODO : Add code to send the audio to the backend
 
-        _logger.i("Picked file ${file.path}");
+        _logger.i("Picked file ${result.files.single.name}");
       } else {
-        _logger.e("Picked file is not an audio file");
+        _logger.e("Picked file is not an supported audio file");
       }
     } else {
       _logger.e("No file picked");
@@ -208,8 +232,40 @@ class ShelfStateNotifier extends StateNotifier<ShelfState> {
     _logger.d(pickedFile?.path);
   }
 
+  void setLanguageCode(String languageCode) {
+    state = state.copyWith(selectedLanguageCode: languageCode);
+  }
+
+  void resetAllFields() {
+    state = ShelfState(
+      productId: 0,
+      productNameController: TextEditingController(),
+      productDescriptionController: TextEditingController(),
+      productPrice: 0.0,
+      quantity: 0.0,
+      categories: [],
+      netWeight: 0.0,
+      barcode: TextEditingController(),
+      brandName: TextEditingController(),
+      manufacturerDate: '',
+      expiryDate: '',
+      selectedImage: null,
+      selectedAudio: null,
+      userEnteredPromptController: TextEditingController(),
+      selectedLanguageCode: 'en',
+      bashiniASRResponse: '',
+      // audioRecorder: AudioRecorder(),
+      // isRecording: false,
+    );
+  }
+
   void resetImageSelection() {
     state = state.copyWith(selectedImage: null);
     _logger.d('Image selection reset');
+  }
+
+  void resetAudioSelection() {
+    state = state.copyWith(selectedAudio: null);
+    _logger.d('Audio selection reset');
   }
 }
