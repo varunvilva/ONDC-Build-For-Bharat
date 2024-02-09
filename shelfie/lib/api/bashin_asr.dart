@@ -13,18 +13,17 @@ class BashiniASRApi {
 
   final Logger _logger = Logger();
 
-  void bashiniASR(String modelId, String audioBase64, String languageCode) async {
+  Future<String> bashiniASR(String modelId, String audioBase64, String languageCode) async {
     try {
-      final response = await _client.post('/compute', data: {
-        "modelId": modelId,
-        "task": "asr",
-        "audioContent": audioBase64,
-        "source": languageCode,
-        "userId": null
-      });
-      _logger.i('getBashiniModel ${response.data}');
+      final response = await _client.post(
+        '/compute',
+        data: {"modelId": modelId, "task": "asr", "audioContent": audioBase64, "source": languageCode, "userId": null},
+      );
+      _logger.i('Bashini Response ${response.data['data']['source']}');
+      return response.data['data']['source'];
     } catch (e) {
       _logger.e('getBashiniModel $e');
+      return '';
     }
   }
 }
