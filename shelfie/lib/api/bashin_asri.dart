@@ -2,9 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 
-final bashiniProvider = Provider<BashiniApi>((ref) => BashiniApi());
+final bashiniProvider = Provider<BashiniASRApi>((ref) => BashiniASRApi());
 
-class BashiniApi {
+class BashiniASRApi {
   final _client = Dio(
     BaseOptions(
       baseUrl: 'https://meity-auth.ulcacontrib.org/ulca/apis/asr/v1/model',
@@ -13,7 +13,7 @@ class BashiniApi {
 
   final Logger _logger = Logger();
 
-  void getBashiniModel(String modelId, String audioBase64, String languageCode) async {
+  void bashiniASR(String modelId, String audioBase64, String languageCode) async {
     try {
       final response = await _client.post('/compute', data: {
         "modelId": modelId,
