@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class APIConstants {
   static const String proVisionPrompt =
       r"""I am providing an image and some text maybe given (not always) along with it of a product from which I want to extract the following details and give output as a JSON and the data types in square brackets next to it:
@@ -38,4 +40,39 @@ Consider the user entered prompt given below to fill in the JSON attributers:
 
 
   """;
+
+  static List<DropdownMenuEntry<String>> languages = [
+    const DropdownMenuEntry(value: 'hi', label: "Hindi"),
+    const DropdownMenuEntry(value: 'mr', label: "Marathi"),
+    const DropdownMenuEntry(value: 'pa', label: "Punjabi"),
+    const DropdownMenuEntry(value: 'gu', label: "Gujarati"),
+    const DropdownMenuEntry(value: 'kn', label: "Kannad"),
+    const DropdownMenuEntry(value: 'ur', label: "Urdu"),
+    const DropdownMenuEntry(value: 'ne', label: "Nepali"),
+    const DropdownMenuEntry(value: 'ta', label: "Tamil"),
+    const DropdownMenuEntry(value: 'ml', label: "Malayalam"),
+    const DropdownMenuEntry(value: 'te', label: "Telugu"),
+    const DropdownMenuEntry(value: 'en', label: "English"),
+    const DropdownMenuEntry(value: 'or', label: "Odia"),
+    const DropdownMenuEntry(value: 'bn', label: "Bengali"),
+    const DropdownMenuEntry(value: 'sa', label: "Sanskrit"),
+  ];
+
+// model id <language code, model id>
+  static Map<String, String> modelIdMapASR = {
+    'hi': '64117455b1463435d2fbaec4',
+    'mr': '6411744b56e9de23f65b5424',
+    'pa': '6411743456e9de23f65b5423',
+    'gu': '6411746056e9de23f65b5425',
+    'kn': '641174a356e9de23f65b5429',
+    'ur': '6411741c56e9de23f65b5421',
+    'ne': '6210c1047c69fa1fc5bba7c6',
+    'ta': '641174ad56e9de23f65b542a',
+    'ml': '6411749856e9de23f65b5428',
+    'te': '6411748db1463435d2fbaec5',
+    'en': '641c0be440abd176d64c3f92',
+    'or': '64117440b1463435d2fbaec3',
+    'bn': '6411746956e9de23f65b5426',
+    'sa': '6411742856e9de23f65b5422',
+  };
 }
