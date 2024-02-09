@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:shelfie/constants/constants.dart';
 
 import '../providers/shelf_provider.dart';
 
@@ -134,17 +135,45 @@ class AddProduct extends ConsumerWidget {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
+                              Consumer(
+                                builder: (_, ref, __) => DropdownMenu(
+                                  initialSelection: ref.watch(shelfProvider).selectedLanguageCode,
+                                  dropdownMenuEntries: APIConstants.languages,
+                                  onSelected: (value) {
+                                    ref.read(shelfProvider.notifier).setLanguageCode(value!);
+                                  },
+                                ),
+                              ),
+                              const SizedBox(height: 20),
                               const Text('Upload Audio'),
                               const SizedBox(height: 12),
-                              ElevatedButton(
-                                onPressed: () => ref.read(shelfProvider.notifier).pickAudio(),
-                                style: ElevatedButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  minimumSize: const Size(200, 50),
-                                ),
-                                child: const Text('Upload'),
+
+                              Consumer(
+                                builder: (_, ref, __) {
+                                  if (ref.watch(shelfProvider).selectedAudio == null) {
+                                    return ElevatedButton(
+                                      onPressed: () => ref.read(shelfProvider.notifier).pickAudio(),
+                                      style: ElevatedButton.styleFrom(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(8),
+                                        ),
+                                        minimumSize: const Size(200, 50),
+                                      ),
+                                      child: const Text('Upload'),
+                                    );
+                                  } else {
+                                    return ElevatedButton(
+                                      onPressed: () => ref.read(shelfProvider.notifier).resetAudioSelection(),
+                                      style: ElevatedButton.styleFrom(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(8),
+                                        ),
+                                        minimumSize: const Size(200, 50),
+                                      ),
+                                      child: const Text('Remove Selected Audio'),
+                                    );
+                                  }
+                                },
                               ),
                               // SizedBox(height: 20),
                               // Consumer(
@@ -173,14 +202,42 @@ class AddProduct extends ConsumerWidget {
                   children: [
                     const Spacer(),
                     ElevatedButton(
-                      onPressed: () => ref.read(shelfProvider.notifier).callGeminiApi(),
-                      child: const Text('Add'),
+                      onPressed: () {
+                        ref.read(shelfProvider.notifier).callBashiniASRApi();
+                        showDialog(
+                            context: context,
+                            builder: (_) => AlertDialog(
+                                  title: const Text('Response'),
+                                  content: Consumer(
+                                    builder: (_, ref, __) {
+                                      if (ref.watch(shelfProvider).bashiniASRResponse == null) {
+                                        return const SizedBox(
+                                          height: 100,
+                                          width: 100,
+                                          child: Scaffold(
+                                            body: Center(
+                                              child: CircularProgressIndicator(),
+                                            ),
+                                            backgroundColor: Colors.transparent,
+                                          ),
+                                        );
+                                      } else {
+                                        return Text(ref.watch(shelfProvider).bashiniASRResponse!);
+                                      }
+                                    },
+                                  ),
+                                  actions: [
+                                    ElevatedButton(onPressed: () => context.pop(), child: const Text('Close')),
+                                  ],
+                                ));
+                      },
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
                         minimumSize: const Size(150, 50),
                       ),
+                      child: const Text('Add'),
                     ),
                   ],
                 )
