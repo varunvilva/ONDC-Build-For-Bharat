@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 class APIConstants {
   static const String proVisionPrompt =
-      r"""I am providing an image and some text maybe given (not always) along with it of a product from which I want to extract the following details and give output as a JSON and the data types in square brackets next to it:
+      r"""I am providing list of JSON attributes
+
 product_name [String]
 description [Text]
 price [Float]
@@ -11,12 +12,17 @@ categories [list of String]
 net_weight [Float]
 barcode [String]
 manufacturer_brand [String]
-manufacturing date [String] [DD-MM-YYYY]
+manufacturing_date [String] [DD-MM-YYYY]
 expiration_date [String]  [DD-MM-YYYY]
-Fill all possible values and if you find some missing like the manufacturing date etc, give them null value. Also keep Quantity of stock null as it will not be mentioned in the image. For the Category after knowing the name of the product assign it category namely:
-Books, Electronics, beauty and personal care, Home and Kitchen, Toys, Video Games, Sports, Apparel, Grocery, Baverages, Pet Supplies, Gitfs, Appliences, Stationery,  Fine art, eateries, hardware.
-P.S.: Except for the discription and the categories field, don't generate data to fill the attributes of the JSON. Keep it null if no value. Follow this strictly as we can afford missing data but not incorrect data. Don't fill fields manufacturing date, Expiration date ,Barcode unless given in the image or the user prompt. Consider the user entered prompt attached below to fill in the json attributes as well
-The user entered prompt is:
+
+Find the attributes using the image given below, the attributes not found in the image should be filled with null value.
+Do not fill quantity of stock as it will not be mentioned in the image.
+Generate the categories and description based on product image
+The dates should be in the format [DD-MM-YYYY] id found in the image
+THE OUTPUT IS TO BE GIVEN IN JSON FORMAT
+The user entered image is below :
+
+
 
 
 """;
@@ -52,10 +58,11 @@ categories [list of String]
 net_weight [Float]
 barcode [String]
 manufacturer_brand [String]
-manufacturing date [String] [DD-MM-YYYY]
+manufacturing_date [String] [DD-MM-YYYY]
 expiration_date [String]  [DD-MM-YYYY]
 
 Find the attributes in user entered prompt below, the attributes not found in the user entered prompt should be filled with null value.
+The dates should be in the format [DD-MM-YYYY] id found in the user entered prompt
 THE OUTPUT IS TO BE GIVEN IN JSON FORMAT
 The user entered prompt is below :
 
@@ -106,7 +113,7 @@ The user entered prompt is below :
     "net_weight",
     "barcode",
     "manufacturer_brand",
-    "manufacturing date",
+    "manufacturing_date",
     "expiration_date"
   ];
 }
