@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:shelfie/components/loading_dialog.dart';
 import 'package:shelfie/constants/constants.dart';
 
 import '../providers/shelf_provider.dart';
@@ -55,11 +56,11 @@ class AddProduct extends ConsumerWidget {
                               const Text('Enter prompt'),
                               const SizedBox(height: 12),
                               Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 26.0),
+                                padding: const EdgeInsets.symmetric(horizontal: 26.0),
                                 child: TextField(
                                   controller: ref.read(shelfProvider).userEnteredPromptController,
                                   maxLines: 15,
-                                  decoration: InputDecoration(
+                                  decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                   ),
                                 ),
@@ -203,33 +204,36 @@ class AddProduct extends ConsumerWidget {
                     const Spacer(),
                     ElevatedButton(
                       onPressed: () {
-                        ref.read(shelfProvider.notifier).callBashiniASRApi();
-                        showDialog(
-                            context: context,
-                            builder: (_) => AlertDialog(
-                                  title: const Text('Response'),
-                                  content: Consumer(
-                                    builder: (_, ref, __) {
-                                      if (ref.watch(shelfProvider).bashiniASRResponse == null) {
-                                        return const SizedBox(
-                                          height: 100,
-                                          width: 100,
-                                          child: Scaffold(
-                                            body: Center(
-                                              child: CircularProgressIndicator(),
-                                            ),
-                                            backgroundColor: Colors.transparent,
-                                          ),
-                                        );
-                                      } else {
-                                        return Text(ref.watch(shelfProvider).bashiniASRResponse!);
-                                      }
-                                    },
-                                  ),
-                                  actions: [
-                                    ElevatedButton(onPressed: () => context.pop(), child: const Text('Close')),
-                                  ],
-                                ));
+                        ref.read(shelfProvider.notifier).startProcessing();
+                        showDialog(context: context, builder: (_) => const LoadingDialog());
+
+                        // ref.read(shelfProvider.notifier).callBashiniASRApi();
+                        // showDialog(
+                        //     context: context,
+                        //     builder: (_) => AlertDialog(
+                        //           title: const Text('Response'),
+                        //           content: Consumer(
+                        //             builder: (_, ref, __) {
+                        //               if (ref.watch(shelfProvider).bashiniASRResponse == null) {
+                        //                 return const SizedBox(
+                        //                   height: 100,
+                        //                   width: 100,
+                        //                   child: Scaffold(
+                        //                     body: Center(
+                        //                       child: CircularProgressIndicator(),
+                        //                     ),
+                        //                     backgroundColor: Colors.transparent,
+                        //                   ),
+                        //                 );
+                        //               } else {
+                        //                 return Text(ref.watch(shelfProvider).bashiniASRResponse!);
+                        //               }
+                        //             },
+                        //           ),
+                        //           actions: [
+                        //             ElevatedButton(onPressed: () => context.pop(), child: const Text('Close')),
+                        //           ],
+                        //         ));
                       },
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
