@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:shelfie/components/loading_dialog.dart';
 import 'package:shelfie/constants/constants.dart';
-
 import '../providers/shelf_provider.dart';
 
 class AddProduct extends ConsumerWidget {
@@ -36,22 +35,26 @@ class AddProduct extends ConsumerWidget {
                     children: [
                       Expanded(
                         child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Text('Upload File'),
-                              const SizedBox(height: 12),
-                              ElevatedButton(
-                                onPressed: () => ref.read(shelfProvider.notifier).pickFile(),
-                                style: ElevatedButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  minimumSize: const Size(200, 50),
-                                ),
-                                child: const Text('Upload'),
-                              ),
-                              const SizedBox(height: 12),
+                              // const Text('Upload File'),
+                              // const SizedBox(height: 12),
+                              // ElevatedButton(
+                              //   onPressed: () => ref.read(shelfProvider.notifier).pickFile(),
+                              //   style: ElevatedButton.styleFrom(
+                              //     shape: RoundedRectangleBorder(
+                              //       borderRadius: BorderRadius.circular(8),
+                              //     ),
+                              //     minimumSize: const Size(200, 50),
+                              //   ),
+                              //   child: const Text('Upload'),
+                              // ),
+                              // const SizedBox(height: 12),
                               const Text('Enter prompt'),
                               const SizedBox(height: 12),
                               Padding(
@@ -70,6 +73,10 @@ class AddProduct extends ConsumerWidget {
                       ),
                       Expanded(
                         child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -130,6 +137,10 @@ class AddProduct extends ConsumerWidget {
                       ),
                       Expanded(
                         child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
