@@ -19,7 +19,6 @@ class BashiniASRApi {
         '/compute',
         data: {"modelId": modelId, "task": "asr", "audioContent": audioBase64, "source": languageCode, "userId": null},
       );
-      _logger.i('Bashini Response ${response.data['data']['source']}');
       return response.data['data']['source'];
     } catch (e) {
       _logger.e('getBashiniModel $e');
