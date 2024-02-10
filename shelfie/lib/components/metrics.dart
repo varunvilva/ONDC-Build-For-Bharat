@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 import '../providers/shelf_provider.dart';
 
@@ -23,34 +24,37 @@ class Metrics extends ConsumerWidget {
     bashiniTime = bashiniTime / ref.watch(shelfProvider).totalProducts.length;
     geminiProTime = geminiProTime / ref.watch(shelfProvider).totalProducts.length;
     geminiProVisionTime = geminiProVisionTime / ref.watch(shelfProvider).totalProducts.length;
-    return AlertDialog(
-      content: Container(
-        width: 700,
-        height: 700,
-        margin: const EdgeInsets.all(20),
-        padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          color: Colors.white,
-          boxShadow: const [
-            BoxShadow(
-              color: Colors.grey,
-              blurRadius: 5,
-              offset: Offset(0, 3),
-            ),
-          ],
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-          Text('Average Text Processing time : $geminiProTime seconds', style: const TextStyle(fontSize: 25)),
-          const SizedBox(height: 20),
-          Text('Average Image Processing time : $geminiProVisionTime seconds', style: const TextStyle(fontSize: 25)),
-          const SizedBox(height: 20),
-          Text('Average Audio Processing time : $bashiniTime seconds', style: const TextStyle(fontSize: 25)),
-          const SizedBox(height: 20),
-          Text('Average Total Processing time : $totalAverageTime seconds', style: const TextStyle(fontSize: 25)),
-          ],
+    return ResponsiveScaledBox(
+      width: 1900,
+      child: AlertDialog(
+        content: Container(
+          width: 700,
+          height: 700,
+          margin: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: Colors.white,
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.grey,
+                blurRadius: 5,
+                offset: Offset(0, 3),
+              ),
+            ],
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+            Text('Average Text Processing time : $geminiProTime seconds', style: const TextStyle(fontSize: 25)),
+            const SizedBox(height: 20),
+            Text('Average Image Processing time : $geminiProVisionTime seconds', style: const TextStyle(fontSize: 25)),
+            const SizedBox(height: 20),
+            Text('Average Audio Processing time : $bashiniTime seconds', style: const TextStyle(fontSize: 25)),
+            const SizedBox(height: 20),
+            Text('Average Total Processing time : $totalAverageTime seconds', style: const TextStyle(fontSize: 25)),
+            ],
+          ),
         ),
       ),
     );
