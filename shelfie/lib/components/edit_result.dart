@@ -199,18 +199,21 @@ class EditResult extends ConsumerWidget {
                                 SizedBox(height: 10),
                                 MaterialTextFormField(
                                   hintText: 'Net Weight',
+                                  controller: ref.read(shelfProvider).netWeightController,
                                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                                 ),
                                 SizedBox(height: 20),
                                 Text("Barcode", style: TextStyle(fontSize: 18)),
                                 SizedBox(height: 10),
                                 MaterialTextFormField(
+                                  controller: ref.read(shelfProvider).barcodeController,
                                   hintText: 'Barcode',
                                 ),
                                 SizedBox(height: 20),
                                 Text("Manufacturer/Brand", style: TextStyle(fontSize: 18)),
                                 SizedBox(height: 10),
                                 MaterialTextFormField(
+                                  controller: ref.read(shelfProvider).brandNameController,
                                   hintText: 'Manufacturer/Brand',
                                 ),
                                 SizedBox(height: 20),
@@ -225,7 +228,7 @@ class EditResult extends ConsumerWidget {
                                             context: context,
                                             config: CalendarDatePicker2WithActionButtonsConfig(),
                                             dialogSize: const Size(325, 400),
-                                            value: [DateTime.now()],
+                                            value: [ref.watch(shelfProvider).manufacturerDate],
                                             borderRadius: BorderRadius.circular(15),
                                           );
                                           if (selectedMFD != null) {
@@ -258,7 +261,7 @@ class EditResult extends ConsumerWidget {
                                             context: context,
                                             config: CalendarDatePicker2WithActionButtonsConfig(),
                                             dialogSize: const Size(325, 400),
-                                            value: [DateTime.now()],
+                                            value: [ref.watch(shelfProvider).expiryDate],
                                             borderRadius: BorderRadius.circular(15),
                                           );
                                           if (selectedEXP != null) {
@@ -291,6 +294,8 @@ class EditResult extends ConsumerWidget {
                     ElevatedButton(
                       onPressed: () {
                         ref.read(shelfProvider.notifier).updateFinalJson();
+                        ref.read(shelfProvider.notifier).clearAll();
+                        context.pop();
                         context.pop();
                       },
                       style: ElevatedButton.styleFrom(
