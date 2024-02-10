@@ -40,44 +40,7 @@ class Home extends ConsumerWidget {
         ),
         body: GridView.count(
           crossAxisCount: 4,
-          children: [
-            Container(
-              color: Colors.red,
-              child: const Center(
-                child: Text(
-                  '1',
-                  style: TextStyle(fontSize: 35),
-                ),
-              ),
-            ),
-            Container(
-              color: Colors.green,
-              child: const Center(
-                child: Text(
-                  '2',
-                  style: TextStyle(fontSize: 35),
-                ),
-              ),
-            ),
-            Container(
-              color: Colors.blue,
-              child: const Center(
-                child: Text(
-                  '3',
-                  style: TextStyle(fontSize: 35),
-                ),
-              ),
-            ),
-            Container(
-              color: Colors.yellow,
-              child: const Center(
-                child: Text(
-                  '4',
-                  style: TextStyle(fontSize: 35),
-                ),
-              ),
-            ),
-          ],
+          children: [],
         ),
       ),
     );

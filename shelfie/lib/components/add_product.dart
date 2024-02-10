@@ -36,7 +36,6 @@ class AddProduct extends ConsumerWidget {
                     children: [
                       Expanded(
                         child: Container(
-                          color: Colors.greenAccent,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -71,7 +70,6 @@ class AddProduct extends ConsumerWidget {
                       ),
                       Expanded(
                         child: Container(
-                          color: Colors.blueAccent,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -132,7 +130,6 @@ class AddProduct extends ConsumerWidget {
                       ),
                       Expanded(
                         child: Container(
-                          color: Colors.redAccent,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
