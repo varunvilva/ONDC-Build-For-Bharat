@@ -17,10 +17,21 @@ class GeminiApi {
         text: prompt,
         images: [bytes],
       );
-      _logger.i('Result :  ${geminiResponse?.content?.parts?.last.text}');
       return geminiResponse?.content?.parts?.last.text ?? '';
     } catch (e) {
       _logger.e('textAndImageInput $e');
+      return ''; // or handle the error accordingly
+    }
+  }
+
+  Future<String> proModel({required String prompt}) async {
+    try {
+      final geminiResponse = await gemini.text(
+         prompt,
+      );
+      return geminiResponse?.output ?? '';
+    } catch (e) {
+      _logger.e('textInput $e');
       return ''; // or handle the error accordingly
     }
   }
