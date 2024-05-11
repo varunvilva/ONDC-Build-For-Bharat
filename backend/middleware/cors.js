@@ -1,6 +1,6 @@
 var cors = require('cors');
 
-var whitelist = ['https://shelfie-8bdc6.web.app/', 'https://shelfie-8bdc6.firebaseapp.com/', 'https://ondc-build-for-bharat.onrender.com']
+var whitelist = ['https://shelfie-8bdc6.web.app/', 'https://shelfie-8bdc6.firebaseapp.com/', 'http://localhost:10000/']
 var corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
