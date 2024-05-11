@@ -25,7 +25,6 @@ const get_text = async (query, bool = true) => {
     const result = await model.generateContent(prompt);
     const response = await result.response;
     const text = response.text();
-    console.log("text\n" + text);
     const cleanTextOutput = text.trim().replace(/^```/, '').replace(/```$/, '').replace(/json/gi, ''); // Modified this line to use the text variable
     const responseJson = JSON.parse(cleanTextOutput);
     const output = {};
@@ -34,9 +33,7 @@ const get_text = async (query, bool = true) => {
     } else {
         output["audio"] = responseJson; // You need to replace `data` with `text` here
     }
-    console.log(output);
     return output;
 };
 
-// exports.get_text = get_text;
 module.exports = get_text;

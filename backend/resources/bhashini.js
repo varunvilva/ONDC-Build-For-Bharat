@@ -17,7 +17,7 @@ const get_audio = async (audio, lang_code = "en") => {
             break;
         }
     }
-    console.log(modelId);
+    
     const bhashini_input = {
         modelId,
         task: "asr",
@@ -46,7 +46,6 @@ const get_audio = async (audio, lang_code = "en") => {
 
     if (response.status === 200) {
         const data = await response.json();
-        console.log(data.data.source);
         await get_text(data.data.source, false);
     } else {
         return "Error in fetching audio data";
