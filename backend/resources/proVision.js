@@ -1,13 +1,15 @@
 var express = require('express');
 require('dotenv').config();
 var get_image = require('../middleware/proVisionMiddleware');
+var cors = require('cors');
 
+var corsOptions = require('../middleware/cors');
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 var router = express.Router();
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
 
 
-router.post("/", async (req, res) => {
+router.post("/", cors(corsOptions),async (req, res) => {
     try {
         const img = req.body.image;
         const result = await get_image(img);
