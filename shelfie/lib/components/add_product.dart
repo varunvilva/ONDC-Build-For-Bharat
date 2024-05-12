@@ -24,11 +24,30 @@ class AddProduct extends ConsumerWidget {
                   children: [
                     const Text('Add Item'),
                     const Spacer(),
+                    ElevatedButton(
+                      onPressed: () {
+                        ref.read(shelfProvider.notifier).startProcessing();
+                        showDialog(context: context, builder: (_) => const LoadingDialog());
+                      },
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        minimumSize: const Size(150, 50),
+                      ),
+                      child: const Text('Submit'),
+                    ),
+                    SizedBox(
+                      width: 16,
+                    ),
                     IconButton(
                       icon: const Icon(Icons.close),
                       onPressed: () => Navigator.pop(context),
                     ),
                   ],
+                ),
+                SizedBox(
+                  height: 10,
                 ),
                 Expanded(
                   child: Row(
@@ -42,19 +61,6 @@ class AddProduct extends ConsumerWidget {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              // const Text('Upload File'),
-                              // const SizedBox(height: 12),
-                              // ElevatedButton(
-                              //   onPressed: () => ref.read(shelfProvider.notifier).pickFile(),
-                              //   style: ElevatedButton.styleFrom(
-                              //     shape: RoundedRectangleBorder(
-                              //       borderRadius: BorderRadius.circular(8),
-                              //     ),
-                              //     minimumSize: const Size(200, 50),
-                              //   ),
-                              //   child: const Text('Upload'),
-                              // ),
-                              // const SizedBox(height: 12),
                               const Text('Enter prompt'),
                               const SizedBox(height: 12),
                               Padding(
@@ -103,21 +109,22 @@ class AddProduct extends ConsumerWidget {
                                       builder: (context) => AlertDialog(
                                         title: const Text('Selected Image'),
                                         content: IntrinsicHeight(
-                                            child: Container(
-                                          child: Column(
-                                            children: [
-                                              Text('Remove Image?'),
-                                              SizedBox(height: 12),
-                                              ElevatedButton(
-                                                onPressed: () {
-                                                  ref.read(shelfProvider.notifier).resetImageSelection();
-                                                  context.pop();
-                                                },
-                                                child: const Text('Remove'),
-                                              ),
-                                            ],
+                                          child: Container(
+                                            child: Column(
+                                              children: [
+                                                Text('Remove Image?'),
+                                                SizedBox(height: 12),
+                                                ElevatedButton(
+                                                  onPressed: () {
+                                                    ref.read(shelfProvider.notifier).resetImageSelection();
+                                                    context.pop();
+                                                  },
+                                                  child: const Text('Remove'),
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                        )),
+                                        ),
                                       ),
                                     ),
                                     child: ClipRRect(
@@ -156,7 +163,6 @@ class AddProduct extends ConsumerWidget {
                               const SizedBox(height: 20),
                               const Text('Upload Audio'),
                               const SizedBox(height: 12),
-
                               Consumer(
                                 builder: (_, ref, __) {
                                   if (ref.watch(shelfProvider).selectedAudio == null) {
@@ -184,22 +190,6 @@ class AddProduct extends ConsumerWidget {
                                   }
                                 },
                               ),
-                              // SizedBox(height: 20),
-                              // Consumer(
-                              //   builder: (_, ref, __) {
-                              //     if (ref.watch(shelfProvider).isRecording) {
-                              //       return IconButton(
-                              //         onPressed: () => ref.read(shelfProvider.notifier).stopRecording(),
-                              //         icon: Icon(Icons.mic_off),
-                              //       );
-                              //     } else {
-                              //       return IconButton(
-                              //         onPressed: () => ref.read(shelfProvider.notifier).startRecording(),
-                              //         icon: Icon(Icons.mic),
-                              //       );
-                              //     }
-                              //   },
-                              // ),
                             ],
                           ),
                         ),
@@ -207,52 +197,6 @@ class AddProduct extends ConsumerWidget {
                     ],
                   ),
                 ),
-                Row(
-                  children: [
-                    const Spacer(),
-                    ElevatedButton(
-                      onPressed: () {
-                        ref.read(shelfProvider.notifier).startProcessing();
-                        showDialog(context: context, builder: (_) => const LoadingDialog());
-
-                        // ref.read(shelfProvider.notifier).callBashiniASRApi();
-                        // showDialog(
-                        //     context: context,
-                        //     builder: (_) => AlertDialog(
-                        //           title: const Text('Response'),
-                        //           content: Consumer(
-                        //             builder: (_, ref, __) {
-                        //               if (ref.watch(shelfProvider).bashiniASRResponse == null) {
-                        //                 return const SizedBox(
-                        //                   height: 100,
-                        //                   width: 100,
-                        //                   child: Scaffold(
-                        //                     body: Center(
-                        //                       child: CircularProgressIndicator(),
-                        //                     ),
-                        //                     backgroundColor: Colors.transparent,
-                        //                   ),
-                        //                 );
-                        //               } else {
-                        //                 return Text(ref.watch(shelfProvider).bashiniASRResponse!);
-                        //               }
-                        //             },
-                        //           ),
-                        //           actions: [
-                        //             ElevatedButton(onPressed: () => context.pop(), child: const Text('Close')),
-                        //           ],
-                        //         ));
-                      },
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        minimumSize: const Size(150, 50),
-                      ),
-                      child: const Text('Add'),
-                    ),
-                  ],
-                )
               ],
             ),
           ),
