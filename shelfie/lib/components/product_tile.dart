@@ -34,7 +34,7 @@ class ProductTile extends StatelessWidget {
               fit: BoxFit.cover,
             ),
           Text(product.productName!, style: const TextStyle(fontSize: 20)),
-          Text(product.description!, style: const TextStyle(fontSize: 15)),
+          Text(product.description!, style: const TextStyle(fontSize: 15,overflow: TextOverflow.ellipsis), maxLines: 3),
           const SizedBox(height: 20),
           ElevatedButton(
             onPressed: () => showDialog(
