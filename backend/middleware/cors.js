@@ -1,6 +1,7 @@
 let cors = require("cors");
+require("dotenv").config();
 
-var whitelist = ['https://shelfie-8bdc6.web.app/', 'https://shelfie-8bdc6.firebaseapp.com/', 'http://127.0.0.1:10000/']
+var whitelist = [process.env.FRONTEND_DOMAIN];
 var corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
