@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:shelfie/api/gemini.dart';
 import 'package:shelfie/components/add_product.dart';
 import 'package:shelfie/components/metrics.dart';
 
@@ -52,6 +53,21 @@ class Home extends ConsumerWidget {
                     builder: (context) => const Metrics(),
                   ),
                   child: const Text('Metrics'),
+                ),
+              ),
+              const SizedBox(width: 20),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  onPressed: () {
+                    ref.read(geminiProvider).testApiCall();
+                  },
+                  child: const Text('Test Api'),
                 ),
               ),
             ],
