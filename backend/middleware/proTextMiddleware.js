@@ -1,10 +1,10 @@
-require('dotenv').config();
+require("dotenv").config();
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
 
 const get_text = async (query, bool = true) => {
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
-    const text_prompt = `I am providing list of JSON attributes
+  const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+  const text_prompt = `I am providing list of JSON attributes
                     product_name [String]
                     description [Text]
                     price [Float]
@@ -21,19 +21,17 @@ const get_text = async (query, bool = true) => {
                     THE OUTPUT IS TO BE GIVEN IN JSON FORMAT
                     The user entered prompt is below :`;
 
-    var prompt = text_prompt + query;
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    const text = response.text();
-    const cleanTextOutput = text.trim().replace(/^```/, '').replace(/```$/, '').replace(/json/gi, ''); // Modified this line to use the text variable
-    const responseJson = JSON.parse(cleanTextOutput);
-    const output = {};
-    if (bool) {
-        output["text"] = responseJson; // You need to replace `data` with `text` here
-    } else {
-        output["audio"] = responseJson; // You need to replace `data` with `text` here
-    }
-    return output;
+  let prompt = text_prompt + query;
+  const result = await model.generateContent(prompt);
+  const response = result.response;
+  const text = response.text();
+  const cleanTextOutput = text
+    .trim()
+    .replace(/^```/, "")
+    .replace(/```$/, "")
+    .replace(/json/gi, ""); // Modified this line to use the text variable
+  const responseJson = JSON.parse(cleanTextOutput);
+  return responseJson;
 };
 
 module.exports = get_text;
