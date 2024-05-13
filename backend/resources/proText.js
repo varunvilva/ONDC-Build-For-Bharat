@@ -7,9 +7,10 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
 var router = express.Router();
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
 
+router.options("/", corsMiddleware);
 router.post("/", corsMiddleware, async (req, res) => {
   try {
-    query = req.body.text;
+    let query = req.body.text;
     const result = await get_text(query);
     res.json(result);
   } catch (error) {
