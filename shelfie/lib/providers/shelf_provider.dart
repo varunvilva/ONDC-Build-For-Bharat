@@ -181,7 +181,7 @@ class ShelfStateNotifier extends StateNotifier<ShelfState> {
 
   Future<void> callGeminiVisionApi() async {
     final XFile image = state.selectedImage!;
-    final String response = await _geminiApi.proVisionModel(image: image, prompt: APIConstants.proVisionPrompt);
+    final String response = await _geminiApi.proVisionModel(image: image);
     state = state.copyWith(geminiProVisionResponse: response);
   }
 
@@ -296,10 +296,6 @@ class ShelfStateNotifier extends StateNotifier<ShelfState> {
     }
     final geminiVisionEndPoint = window.performance.now();
 
-    _logger.d("Gemini Pro Response${state.geminiProResponse ?? ''}");
-    _logger.d("Bashini Response${state.bashiniASRResponse ?? ''}");
-    _logger.d("Gemini Pro Vision Response${state.geminiProVisionResponse ?? ''}");
-
     // The mesures time by window.performance.now() is in nanoseconds so we convert it in seconds
     _logger.d("Bashini ASR Time: ${(bashiniEndPoint - bashiniStartPoint) / 1000} seconds");
     _logger.d("Gemini Pro Time: ${(geminiEndPoint - geminiStartPoint) / 1000} seconds");
@@ -319,6 +315,10 @@ class ShelfStateNotifier extends StateNotifier<ShelfState> {
 
     Map<String, dynamic> finalJson = {};
 
+    _logger.d("Gemini Pro Response${state.geminiProResponse ?? ''}");
+    _logger.d("Bashini Response${bashiniASRResponse ?? ''}");
+    _logger.d("Gemini Pro Vision Response${geminiProVisionResponse ?? ''}");
+
     for (var key in APIConstants.jsonAttributes) {
       List nonNullOrder = [geminiProResponse[key], bashiniASRResponse[key], geminiProVisionResponse[key]];
       nonNullOrder.removeWhere((element) => element == null);
@@ -326,7 +326,7 @@ class ShelfStateNotifier extends StateNotifier<ShelfState> {
     }
     finalJsonToControllers(finalJson);
 
-    _logger.i(finalJson);
+    _logger.i( "Final Json \n$finalJson");
   }
 
   void finalJsonToControllers(finalJson) {
