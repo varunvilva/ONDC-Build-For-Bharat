@@ -38,8 +38,16 @@ class ProductTile extends ConsumerWidget {
               height: 200,
               fit: BoxFit.cover,
             ),
-          Text(product.productName!, style: const TextStyle(fontSize: 20)),
-          Text(product.description!, style: const TextStyle(fontSize: 15,overflow: TextOverflow.ellipsis), maxLines: 3),
+          if (product.image == null)
+            Image.asset(
+              'lib/assets/placeholder-image-2.png',
+              width: 270,
+              height: 190,
+              fit: BoxFit.cover,
+            ),
+          Text('${product.productName}', style: const TextStyle(fontSize: 20)),
+          Text('${product.description}',
+              style: const TextStyle(fontSize: 15, overflow: TextOverflow.ellipsis), maxLines: 3),
           const Spacer(),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -52,32 +60,31 @@ class ProductTile extends ConsumerWidget {
                     context: context,
                     builder: (_) => AlertDialog(
                       content: Padding(
-                        padding: const EdgeInsets.all(20),
-                        child: Column(
-                          children: [
-                            // display the product details
-                            Text('Product Name: ${product.productName}'),
-                            const SizedBox(height: 20),
-                            Text('Description: ${product.description}'),
-                            const SizedBox(height: 20),
-                            Text('Price: ${product.price}'),
-                            const SizedBox(height: 20),
-                            Text('Categories: ${product.categories?.join(', ')}'),
-                            const SizedBox(height: 20),
-                            Text('Quantity: ${product.quantity}'),
-                            const SizedBox(height: 20),
-                            Text('Net Weight: ${product.netWeight}'),
-                            const SizedBox(height: 20),
-                            Text('Barcode: ${product.barcode}'),
-                            const SizedBox(height: 20),
-                            Text('Manufacturer Brand: ${product.manufacturerBrand}'),
-                            const SizedBox(height: 20),
-                            Text('Manufacturing Date: ${product.manufacturingDate}'),
-                            const SizedBox(height: 20),
-                            Text('Expiration Date: ${product.expirationDate}'),
-                          ],
-                        )
-                      ),
+                          padding: const EdgeInsets.all(20),
+                          child: Column(
+                            children: [
+                              // display the product details
+                              Text('Product Name: ${product.productName}'),
+                              const SizedBox(height: 20),
+                              Text('Description: ${product.description}'),
+                              const SizedBox(height: 20),
+                              Text('Price: ${product.price}'),
+                              const SizedBox(height: 20),
+                              Text('Categories: ${product.categories?.join(', ')}'),
+                              const SizedBox(height: 20),
+                              Text('Quantity: ${product.quantity}'),
+                              const SizedBox(height: 20),
+                              Text('Net Weight: ${product.netWeight}'),
+                              const SizedBox(height: 20),
+                              Text('Barcode: ${product.barcode}'),
+                              const SizedBox(height: 20),
+                              Text('Manufacturer Brand: ${product.manufacturerBrand}'),
+                              const SizedBox(height: 20),
+                              Text('Manufacturing Date: ${product.manufacturingDate}'),
+                              const SizedBox(height: 20),
+                              Text('Expiration Date: ${product.expirationDate}'),
+                            ],
+                          )),
                     ),
                   ),
                   style: ElevatedButton.styleFrom(
