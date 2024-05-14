@@ -8,7 +8,9 @@ import 'package:shelfie/constants/constants.dart';
 import '../providers/shelf_provider.dart';
 
 class AddProduct extends ConsumerWidget {
-  const AddProduct({super.key});
+  AddProduct({super.key});
+
+  final TextEditingController selectedAudioNameController = TextEditingController();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -153,7 +155,8 @@ class AddProduct extends ConsumerWidget {
                               builder: (_, ref, __) {
                                 if (ref.watch(shelfProvider).selectedAudio == null) {
                                   return ElevatedButton(
-                                    onPressed: () => ref.read(shelfProvider.notifier).pickAudio(),
+                                    onPressed: () async => selectedAudioNameController.text =
+                                        await ref.read(shelfProvider.notifier).pickAudio(),
                                     style: ElevatedButton.styleFrom(
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(8),
@@ -163,15 +166,24 @@ class AddProduct extends ConsumerWidget {
                                     child: const Text('Upload'),
                                   );
                                 } else {
-                                  return ElevatedButton(
-                                    onPressed: () => ref.read(shelfProvider.notifier).resetAudioSelection(),
-                                    style: ElevatedButton.styleFrom(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(8),
+                                  return Column(
+                                    children: [
+                                      Text('Selected Audio: ${selectedAudioNameController.text}',
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(fontSize: 15)),
+                                      const SizedBox(height: 12),
+                                      ElevatedButton(
+                                        onPressed: () => ref.read(shelfProvider.notifier).resetAudioSelection(),
+                                        style: ElevatedButton.styleFrom(
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(8),
+                                          ),
+                                          minimumSize: const Size(200, 50),
+                                        ),
+                                        child: const Text('Remove Selected Audio'),
                                       ),
-                                      minimumSize: const Size(200, 50),
-                                    ),
-                                    child: const Text('Remove Selected Audio'),
+                                    ],
                                   );
                                 }
                               },
