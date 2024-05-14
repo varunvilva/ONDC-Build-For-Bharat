@@ -9,8 +9,7 @@ final geminiProvider = Provider<GeminiApi>((ref) => GeminiApi());
 class GeminiApi {
   final _client = Dio(
     BaseOptions(
-      baseUrl: 'https://ondc-build-for-bharat.onrender.com/',
-      // baseUrl: 'http://localhost:3000/',
+      baseUrl: 'https://ondc-build-for-bharat.onrender.com',
       validateStatus: (status) {
         return status! <= 500;
       },
@@ -18,14 +17,8 @@ class GeminiApi {
   );
   final Logger _logger = Logger();
 
-  // Define headers
-  final Map<String, String> _headers = {
-    "Access-Control_Allow_Origin": "*"
-  };
-
   void testApiCall() async {
     try {
-      // _client.options.headers['Origin'] = 'https://shelfie-8bdc6.web.app:4368348125';
       final response = await _client.get(
         '/',
       );
