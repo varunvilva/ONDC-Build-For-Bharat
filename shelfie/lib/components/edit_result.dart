@@ -61,21 +61,19 @@ class EditResult extends ConsumerWidget {
                                   builder: (context) => AlertDialog(
                                     title: const Text('Selected Image'),
                                     content: IntrinsicHeight(
-                                        child: Container(
-                                      child: Column(
-                                        children: [
-                                          Text('Remove Image?'),
-                                          SizedBox(height: 12),
-                                          ElevatedButton(
-                                            onPressed: () {
-                                              ref.read(shelfProvider.notifier).resetImageSelection();
-                                              context.pop();
-                                            },
-                                            child: const Text('Remove'),
-                                          ),
-                                        ],
-                                      ),
-                                    )),
+                                        child: Column(
+                                          children: [
+                                            const Text('Remove Image?'),
+                                            const SizedBox(height: 12),
+                                            ElevatedButton(
+                                              onPressed: () {
+                                                ref.read(shelfProvider.notifier).resetImageSelection();
+                                                context.pop();
+                                              },
+                                              child: const Text('Remove'),
+                                            ),
+                                          ],
+                                        )),
                                   ),
                                 ),
                                 child: ClipRRect(
@@ -105,19 +103,19 @@ class EditResult extends ConsumerWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                SizedBox(height: 20),
-                                Text(
+                                const SizedBox(height: 20),
+                                const Text(
                                   "Product Name",
                                   style: TextStyle(fontSize: 18),
                                 ),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 10),
                                 MaterialTextFormField(
                                   hintText: 'Product Name',
                                   controller: ref.read(shelfProvider).productNameController,
                                 ),
-                                SizedBox(height: 20),
-                                Text("Product Description", style: TextStyle(fontSize: 18)),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 20),
+                                const Text("Product Description", style: TextStyle(fontSize: 18)),
+                                const SizedBox(height: 10),
                                 TextField(
                                   controller: ref.read(shelfProvider).productDescriptionController,
                                   maxLines: 5,
@@ -126,25 +124,25 @@ class EditResult extends ConsumerWidget {
                                     border: OutlineInputBorder(),
                                   ),
                                 ),
-                                SizedBox(height: 20),
-                                Text("Product Price", style: TextStyle(fontSize: 18)),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 20),
+                                const Text("Product Price", style: TextStyle(fontSize: 18)),
+                                const SizedBox(height: 10),
                                 MaterialTextFormField(
                                   controller: ref.read(shelfProvider).productPriceController,
                                   hintText: 'Product Price',
                                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                                 ),
-                                SizedBox(height: 20),
-                                Text("Product Quantity", style: TextStyle(fontSize: 18)),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 20),
+                                const Text("Product Quantity", style: TextStyle(fontSize: 18)),
+                                const SizedBox(height: 10),
                                 MaterialTextFormField(
                                   controller: ref.read(shelfProvider).productQuantityController,
                                   hintText: 'Product Quantity',
                                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                                 ),
-                                SizedBox(height: 20),
-                                Text("Product Categories", style: TextStyle(fontSize: 18)),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 20),
+                                const Text("Product Categories", style: TextStyle(fontSize: 18)),
+                                const SizedBox(height: 10),
                                 Container(
                                   width: 700,
                                   height: 200,
@@ -195,31 +193,31 @@ class EditResult extends ConsumerWidget {
                                   ),
                                   child: const Text('Add Category'),
                                 ),
-                                SizedBox(height: 20),
-                                Text("Net Weight", style: TextStyle(fontSize: 18)),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 20),
+                                const Text("Net Weight", style: TextStyle(fontSize: 18)),
+                                const SizedBox(height: 10),
                                 MaterialTextFormField(
                                   hintText: 'Net Weight',
                                   controller: ref.read(shelfProvider).netWeightController,
                                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                                 ),
-                                SizedBox(height: 20),
-                                Text("Barcode", style: TextStyle(fontSize: 18)),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 20),
+                                const Text("Barcode", style: TextStyle(fontSize: 18)),
+                                const SizedBox(height: 10),
                                 MaterialTextFormField(
                                   controller: ref.read(shelfProvider).barcodeController,
                                   hintText: 'Barcode',
                                 ),
-                                SizedBox(height: 20),
-                                Text("Manufacturer/Brand", style: TextStyle(fontSize: 18)),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 20),
+                                const Text("Manufacturer/Brand", style: TextStyle(fontSize: 18)),
+                                const SizedBox(height: 10),
                                 MaterialTextFormField(
                                   controller: ref.read(shelfProvider).brandNameController,
                                   hintText: 'Manufacturer/Brand',
                                 ),
-                                SizedBox(height: 20),
-                                Text("Manufacturer Date", style: TextStyle(fontSize: 18)),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 20),
+                                const Text("Manufacturer Date", style: TextStyle(fontSize: 18)),
+                                const SizedBox(height: 10),
                                 Consumer(
                                   builder: (_, ref, __) => Row(
                                     children: [
