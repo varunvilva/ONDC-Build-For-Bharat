@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:shelfie/components/rounded_chip.dart';
-
 import '../providers/shelf_provider.dart';
 import 'material_textformfield.dart';
 
@@ -15,7 +15,7 @@ class EditResult extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return ResponsiveScaledBox(
-      width: 1900,
+      width: 1980,
       child: AlertDialog(
         title: SizedBox(
           width: 1400,
@@ -33,7 +33,8 @@ class EditResult extends ConsumerWidget {
                     ),
                   ],
                 ),
-                Expanded(
+                SizedBox(
+                  height: 800,
                   child: Row(
                     children: [
                       Expanded(
@@ -288,25 +289,24 @@ class EditResult extends ConsumerWidget {
                     ],
                   ),
                 ),
-                Row(
-                  children: [
-                    const Spacer(),
-                    ElevatedButton(
-                      onPressed: () {
-                        ref.read(shelfProvider.notifier).updateFinalJson();
-                        ref.read(shelfProvider.notifier).clearAll();
-                        context.pop();
-                        context.pop();
-                      },
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        minimumSize: const Size(150, 50),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      ref.read(shelfProvider.notifier).updateFinalJson();
+                      ref.read(shelfProvider.notifier).clearAll();
+                      context.pop();
+                      context.pop();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
                       ),
-                      child: const Text('Save'),
+                      backgroundColor: HexColor('#3E95D6'),
+                      minimumSize: const Size(150, 50),
                     ),
-                  ],
+                    child: const Text('Save Product', style: TextStyle(color: Colors.white)),
+                  ),
                 )
               ],
             ),
