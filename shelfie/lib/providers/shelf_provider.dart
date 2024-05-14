@@ -123,8 +123,8 @@ class ShelfState {
       addCategoryController: addCategoryController ?? this.addCategoryController,
       finalJson: finalJson ?? this.finalJson,
 
-      selectedImage: selectedImage ?? this.selectedImage,
-      selectedAudio: selectedAudio ?? this.selectedAudio,
+      selectedImage: selectedImage,
+      selectedAudio: selectedAudio,
       userEnteredPromptController: userEnteredPromptController ?? this.userEnteredPromptController,
       selectedLanguageCode: selectedLanguageCode ?? this.selectedLanguageCode,
       bashiniASRResponse: bashiniASRResponse ?? this.bashiniASRResponse,
@@ -182,13 +182,13 @@ class ShelfStateNotifier extends StateNotifier<ShelfState> {
   Future<void> callGeminiVisionApi() async {
     final XFile image = state.selectedImage!;
     final String response = await _geminiApi.proVisionModel(image: image);
-    state = state.copyWith(geminiProVisionResponse: response);
+    state = state.copyWith(geminiProVisionResponse: response, selectedImage: state.selectedImage, selectedAudio: state.selectedAudio);
   }
 
   Future<void> callGeminiProApi() async {
     final String userEnteredPrompt = state.userEnteredPromptController.text;
     final String response = await _geminiApi.proModel(prompt: APIConstants.proPrompt + userEnteredPrompt);
-    state = state.copyWith(geminiProResponse: response);
+    state = state.copyWith(geminiProResponse: response, selectedImage: state.selectedImage, selectedAudio: state.selectedAudio);
   }
 
   Future<void> callBashiniASRApi() async {
@@ -198,7 +198,7 @@ class ShelfStateNotifier extends StateNotifier<ShelfState> {
       state.selectedLanguageCode,
     );
     final String responseJson = await _geminiApi.proModel(prompt: APIConstants.proPrompt + response);
-    state = state.copyWith(bashiniASRResponse: responseJson);
+    state = state.copyWith(bashiniASRResponse: responseJson, selectedImage: state.selectedImage, selectedAudio: state.selectedAudio);
   }
 
   Map<String, dynamic>? extractJsonFromString(String corpus) {
@@ -229,6 +229,8 @@ class ShelfStateNotifier extends StateNotifier<ShelfState> {
     if (state.addCategoryController.text.isNotEmpty) {
       String label = state.addCategoryController.text;
       state = state.copyWith(
+        selectedImage: state.selectedImage,
+        selectedAudio: state.selectedAudio,
         categories: [
           ...state.categories,
           RoundedChip(
@@ -238,6 +240,8 @@ class ShelfStateNotifier extends StateNotifier<ShelfState> {
                 categories: state.categories.where((element) => element.label != label).toList(),
                 manufacturerDate: state.manufacturerDate,
                 expiryDate: state.expiryDate,
+                selectedImage: state.selectedImage,
+                selectedAudio: state.selectedAudio,
               );
             },
             color: Colors.tealAccent,
@@ -251,15 +255,15 @@ class ShelfStateNotifier extends StateNotifier<ShelfState> {
   }
 
   void updateManufacturerDate(DateTime? date) {
-    state = state.copyWith(manufacturerDate: date, expiryDate: state.expiryDate);
+    state = state.copyWith(manufacturerDate: date, expiryDate: state.expiryDate, selectedImage: state.selectedImage, selectedAudio: state.selectedAudio);
   }
 
   void updateExpiryDate(DateTime? date) {
-    state = state.copyWith(expiryDate: date, manufacturerDate: state.manufacturerDate);
+    state = state.copyWith(expiryDate: date, manufacturerDate: state.manufacturerDate, selectedImage: state.selectedImage, selectedAudio: state.selectedAudio);
   }
 
   void setLanguageCode(String languageCode) {
-    state = state.copyWith(selectedLanguageCode: languageCode);
+    state = state.copyWith(selectedLanguageCode: languageCode, selectedImage: state.selectedImage, selectedAudio: state.selectedAudio);
   }
 
   Future<void> startProcessing() async {
@@ -267,32 +271,34 @@ class ShelfStateNotifier extends StateNotifier<ShelfState> {
       textProcessingState: TextProcessingState.loading,
       imageProcessingState: ImageProcessingState.loading,
       audioProcessingState: AudioProcessingState.loading,
+      selectedImage: state.selectedImage,
+      selectedAudio: state.selectedAudio,
     );
 
     final bashiniStartPoint = window.performance.now();
     if (state.selectedAudio != null) {
       await callBashiniASRApi();
-      state = state.copyWith(audioProcessingState: AudioProcessingState.complete);
+      state = state.copyWith(audioProcessingState: AudioProcessingState.complete, selectedImage: state.selectedImage, selectedAudio: state.selectedAudio);
     } else {
-      state = state.copyWith(audioProcessingState: AudioProcessingState.error);
+      state = state.copyWith(audioProcessingState: AudioProcessingState.error, selectedImage: state.selectedImage, selectedAudio: state.selectedAudio);
     }
     final bashiniEndPoint = window.performance.now();
 
     final geminiStartPoint = window.performance.now();
     if (state.userEnteredPromptController.text.isNotEmpty) {
       await callGeminiProApi();
-      state = state.copyWith(textProcessingState: TextProcessingState.complete);
+      state = state.copyWith(textProcessingState: TextProcessingState.complete, selectedImage: state.selectedImage, selectedAudio: state.selectedAudio);
     } else {
-      state = state.copyWith(textProcessingState: TextProcessingState.error);
+      state = state.copyWith(textProcessingState: TextProcessingState.error, selectedImage: state.selectedImage, selectedAudio: state.selectedAudio);
     }
     final geminiEndPoint = window.performance.now();
 
     final geminiVisionStartPoint = window.performance.now();
     if (state.selectedImage != null) {
       await callGeminiVisionApi();
-      state = state.copyWith(imageProcessingState: ImageProcessingState.complete);
+      state = state.copyWith(imageProcessingState: ImageProcessingState.complete, selectedImage: state.selectedImage, selectedAudio: state.selectedAudio);
     } else {
-      state = state.copyWith(imageProcessingState: ImageProcessingState.error);
+      state = state.copyWith(imageProcessingState: ImageProcessingState.error, selectedImage: state.selectedImage, selectedAudio: state.selectedAudio);
     }
     final geminiVisionEndPoint = window.performance.now();
 
@@ -351,7 +357,6 @@ class ShelfStateNotifier extends StateNotifier<ShelfState> {
     if (finalJson['categories'] != null) {
       for (var category in finalJson['categories']) {
         String label = category;
-
         categories.add(
           RoundedChip(
             label: label,
@@ -360,6 +365,7 @@ class ShelfStateNotifier extends StateNotifier<ShelfState> {
                 categories: state.categories.where((element) => element.label != label).toList(),
                 manufacturerDate: manufacturerDate,
                 expiryDate: expiryDate,
+                selectedImage: state.selectedImage,
               );
             },
             color: Colors.tealAccent,
@@ -371,6 +377,7 @@ class ShelfStateNotifier extends StateNotifier<ShelfState> {
       categories: categories,
       manufacturerDate: manufacturerDate,
       expiryDate: expiryDate,
+      selectedImage: state.selectedImage,
       processingComplete: true,
     );
   }
@@ -465,7 +472,7 @@ class ShelfStateNotifier extends StateNotifier<ShelfState> {
     _logger.d("Picked Image file path${pickedFile!.path}");
   }
 
-  void pickAudio() async {
+  Future<String> pickAudio() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
     if (result != null) {
       bool isValidFile = result.files.single.name.endsWith(".mp3") || result.files.single.name.endsWith(".wav");
@@ -473,15 +480,17 @@ class ShelfStateNotifier extends StateNotifier<ShelfState> {
         _logger.d('Audio file selected');
         Uint8List bytes = result.files.single.bytes!;
 
-        state = state.copyWith(selectedAudio: bytes);
-        // TODO : Add code to send the audio to the backend
+        state = state.copyWith(selectedAudio: bytes, selectedImage: state.selectedImage);
 
         _logger.i("Picked file ${result.files.single.name}");
+        return result.files.single.name;
       } else {
         _logger.e("Picked file is not an supported audio file");
+        return '';
       }
     } else {
       _logger.e("No file picked");
+      return '';
     }
   }
 
@@ -501,7 +510,7 @@ class ShelfStateNotifier extends StateNotifier<ShelfState> {
   }
 
   void resetAudioSelection() {
-    state = state.copyWith(selectedAudio: null);
+    state = state.copyWith(selectedAudio: null, selectedImage: state.selectedImage);
     _logger.d('Audio selection reset');
   }
 
@@ -524,6 +533,7 @@ class ShelfStateNotifier extends StateNotifier<ShelfState> {
       brandNameController: TextEditingController(),
       manufacturerDate: null,
       expiryDate: null,
+      selectedImage: null,
       addCategoryController: TextEditingController(),
       finalJson: {},
 
