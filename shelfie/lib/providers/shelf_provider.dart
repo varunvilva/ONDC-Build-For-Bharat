@@ -326,7 +326,7 @@ class ShelfStateNotifier extends StateNotifier<ShelfState> {
     }
     finalJsonToControllers(finalJson);
 
-    _logger.i( "Final Json \n$finalJson");
+    _logger.i("Final Json \n$finalJson");
   }
 
   void finalJsonToControllers(finalJson) {
@@ -426,9 +426,9 @@ class ShelfStateNotifier extends StateNotifier<ShelfState> {
     product.geminiProTime = geminiTime;
     product.geminiVisionTime = geminiVisionTime;
 
-    bashiniTime =0;
-    geminiTime =0;
-    geminiVisionTime =0;
+    bashiniTime = 0;
+    geminiTime = 0;
+    geminiVisionTime = 0;
     _logger.i(finalJson);
     state = state.copyWith(finalJson: finalJson, totalProducts: [product, ...state.totalProducts]);
   }
@@ -503,6 +503,12 @@ class ShelfStateNotifier extends StateNotifier<ShelfState> {
   void resetAudioSelection() {
     state = state.copyWith(selectedAudio: null);
     _logger.d('Audio selection reset');
+  }
+
+  void deleteProduct(int index) {
+    List<Product> totalProducts = state.totalProducts;
+    totalProducts.removeAt(index);
+    state = state.copyWith(totalProducts: totalProducts);
   }
 
   void clearAll() {
