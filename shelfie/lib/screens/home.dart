@@ -5,7 +5,6 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:shelfie/components/add_product.dart';
 import 'package:shelfie/components/metrics.dart';
-
 import '../components/product_tile.dart';
 import '../providers/shelf_provider.dart';
 
@@ -15,7 +14,7 @@ class Home extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return ResponsiveScaledBox(
-      width: 1900,
+      width: 1980,
       child: Scaffold(
         floatingActionButton: SizedBox(
           height: 70,
