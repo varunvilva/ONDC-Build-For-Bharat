@@ -31,7 +31,7 @@ class Home extends ConsumerWidget {
                 Text('Add Product', style: TextStyle(fontSize: 20, color: Colors.white)),
               ],
             ),
-            onPressed: () => showDialog(context: context, builder: (_) => const AddProduct()),
+            onPressed: () => showDialog(context: context, builder: (_) => AddProduct()),
           ),
         ),
         appBar: AppBar(
