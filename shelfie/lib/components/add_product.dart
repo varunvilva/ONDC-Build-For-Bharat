@@ -17,27 +17,26 @@ class AddProduct extends ConsumerWidget {
     return ResponsiveScaledBox(
       width: 1980,
       child: AlertDialog(
-        title: SizedBox(
+        content: SizedBox(
           width: 1400,
           height: 900,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Row(
-                children: [
-                  const Text('Add Item'),
-                  const Spacer(),
-                  IconButton(
-                    icon: const Icon(Icons.close),
-                    onPressed: () => Navigator.pop(context),
-                  ),
-                ],
+              Expanded(
+                child: Row(
+                  children: [
+                    const Text('Add Item', style: TextStyle(fontSize: 24)),
+                    const Spacer(),
+                    IconButton(
+                      icon: const Icon(Icons.close),
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                  ],
+                ),
               ),
-              const SizedBox(
-                height: 10,
-              ),
-              SizedBox(
-                height: 780,
+              Expanded(
+                flex: 12,
                 child: Row(
                   children: [
                     Expanded(
@@ -195,22 +194,23 @@ class AddProduct extends ConsumerWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 20),
-              Align(
-                alignment: Alignment.centerRight,
-                child: ElevatedButton(
-                  onPressed: () {
-                    ref.read(shelfProvider.notifier).startProcessing();
-                    showDialog(context: context, builder: (_) => const LoadingDialog());
-                  },
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+              Expanded(
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      ref.read(shelfProvider.notifier).startProcessing();
+                      showDialog(context: context, builder: (_) => const LoadingDialog());
+                    },
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      backgroundColor: HexColor('#3E95D6'),
+                      minimumSize: const Size(150, 50),
                     ),
-                    backgroundColor: HexColor('#3E95D6'),
-                    minimumSize: const Size(150, 50),
+                    child: const Text('Submit', style: TextStyle(color: Colors.white)),
                   ),
-                  child: const Text('Submit', style: TextStyle(color: Colors.white)),
                 ),
               ),
             ],
