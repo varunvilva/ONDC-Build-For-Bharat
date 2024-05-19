@@ -5,6 +5,7 @@ var logger = require("morgan");
 var indexRouter = require("./routes/index");
 var proTextRouter = require("./resources/proText");
 var proVisionRouter = require("./resources/proVision");
+var multipleProVisionRouter = require("./resources/multipleJobs/multipleProVision");
 var corsOptions = require("./middleware/cors");
 
 var app = express();
@@ -23,6 +24,7 @@ app.use(cookieParser());
 app.use("/", indexRouter);
 app.use("/pro-text", proTextRouter);
 app.use("/pro-vision", proVisionRouter);
+app.use("/multiple-pro-vision", multipleProVisionRouter);
 
 // catch 404 and forward to error handler
 app.use(require("./errorHandler").errorForwarder);
