@@ -9,6 +9,6 @@ In some cases, a combination of these interfaces are required to digitize an SKU
 
 ### Deployment
 
-This porjected uses 33 different APIs from google cloud including storage, hosting, and generative AI.
+This project uses 33 different APIs from google cloud including storage, hosting, and generative AI.
 
 Check out the deployed project [here](https://shelfie-8bdc6.web.app/)
