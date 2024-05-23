@@ -9,7 +9,8 @@ final geminiProvider = Provider<GeminiApi>((ref) => GeminiApi());
 class GeminiApi {
   final _client = Dio(
     BaseOptions(
-      baseUrl: 'https://ondc-build-for-bharat.onrender.com',
+   //   baseUrl: 'https://ondc-build-for-bharat.onrender.com',
+      baseUrl: 'https://35.200.160.119',
       validateStatus: (status) {
         return status! <= 500;
       },
