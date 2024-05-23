@@ -6,7 +6,7 @@ var corsMiddleware = require("../middleware/cors");
 // router.options("/", corsMiddleware);
 router.get("/", corsMiddleware, function (req, res, next) {
   try {
-    res.json({ msg: "Hello World from ExpressJS!" });
+    res.json({ msg: "Hello World from Shelfie" });
   } catch (err) {
     console.log(err);
   }
