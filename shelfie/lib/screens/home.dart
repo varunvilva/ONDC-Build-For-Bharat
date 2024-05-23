@@ -39,7 +39,7 @@ class Home extends ConsumerWidget {
           actions: [
             ElevatedButton(
                 onPressed: (){
-                  ref.read(geminiProvider).testApiCall();
+                  ref.read(geminiProvider).testApiCall(context);
                 },
                 child: const Text('Test api call')),
             const SizedBox(
