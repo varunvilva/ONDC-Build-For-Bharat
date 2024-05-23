@@ -22,11 +22,11 @@ class GeminiApi {
 
   void testApiCall(BuildContext context) async {
     try {
-      _client.options.headers["Access-Control-Allow-Origin"] = "*";
-      _client.options.headers["Access-Control-Allow-Credentials"] = true;
-      _client.options.headers["Access-Control-Allow-Headers"] =
-          "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale";
-      _client.options.headers["Access-Control-Allow-Methods"] = "GET, HEAD, POST, OPTIONS";
+      // _client.options.headers["Access-Control-Allow-Origin"] = "*";
+      // _client.options.headers["Access-Control-Allow-Credentials"] = true;
+      // _client.options.headers["Access-Control-Allow-Headers"] =
+      //     "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale";
+      // _client.options.headers["Access-Control-Allow-Methods"] = "GET, HEAD, POST, OPTIONS";
       final response = await _client.get(
         '/',
       );
