@@ -5,6 +5,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:shelfie/components/add_product.dart';
 import 'package:shelfie/components/metrics.dart';
+import '../api/gemini.dart';
 import '../components/product_tile.dart';
 import '../providers/shelf_provider.dart';
 
@@ -36,6 +37,14 @@ class Home extends ConsumerWidget {
         ),
         appBar: AppBar(
           actions: [
+            ElevatedButton(
+                onPressed: (){
+                  ref.read(geminiProvider).testApiCall();
+                },
+                child: const Text('Test api call')),
+            const SizedBox(
+              width: 40,
+            ),
             SizedBox(
               height: 50,
               width: 150,
@@ -73,10 +82,7 @@ class Home extends ConsumerWidget {
                 height: 70,
               ),
               const SizedBox(width: 15),
-              Text(
-                'Shelfie',
-                style: GoogleFonts.jost(fontSize: 38, fontWeight: FontWeight.w400)
-              ),
+              Text('Shelfie', style: GoogleFonts.jost(fontSize: 38, fontWeight: FontWeight.w400)),
               const SizedBox(width: 20),
               const Text('An innovative catalog digitizer', style: TextStyle(fontSize: 18))
             ],
